@@ -1,4 +1,4 @@
-from sklearn.naive_bayes import GaussianNB, MultinomialNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB, ComplementNB
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score
@@ -7,7 +7,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 def runNBs(features, labels):
     classifiers = [
                 ("Guassian", GaussianNB()), 
-                ("Multinomial", MultinomialNB())
+                ("Multinomial", MultinomialNB()),
+                ("Compliment", ComplementNB())
               ]
 
     for name, nb in classifiers:
