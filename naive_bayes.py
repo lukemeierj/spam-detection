@@ -2,19 +2,26 @@ from sklearn.naive_bayes import GaussianNB, MultinomialNB, ComplementNB
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score
+from binning import *
+
 
 
 def runNBs(features, labels):
     classifiers = [
-                ("Guassian", GaussianNB()), 
-                ("Multinomial", MultinomialNB()),
-                ("Compliment", ComplementNB())
-              ]
+              ("Guassian", GaussianNB()), 
+              ("Multinomial", MultinomialNB()),
+              ("Compliment", ComplementNB())
+            ]
 
     for name, nb in classifiers:
-        print("Running with {} Naive Bayes".format(name))
-        runNB(nb, features, labels, scoringFns=[accuracy_score, precision_score, recall_score])
-        print()
+        for binning_fn in [linear_bin, logarithmic_bin, None]:
+            if binning_fn is not None: 
+                features = binned_data(features, range(0, 48), binning_fn)
+
+            bin_name = binning_fn.__name__ if binning_fn is not None else "no"
+            print("Running with {} Naive Bayes using {} binning".format(name, bin_name))
+            runNB(nb, features, labels, scoringFns=[accuracy_score, precision_score, recall_score])
+            print()
 
 
 def runNB(nb, features, labels, scoringFns=[accuracy_score]):
@@ -22,10 +29,16 @@ def runNB(nb, features, labels, scoringFns=[accuracy_score]):
 
     # Fit
     nb.fit(feature_train, label_train)
+    
 
     # Predict
     label_pred = nb.predict(feature_test)
 
+    results = [ (fn.__name__, fn(label_test, label_pred)) for fn in scoringFns ] 
+
     # Accuracy
-    for fn in scoringFns:
-        print("{}: {}".format(fn.__name__, fn(label_test, label_pred)))
+    for metric, score in results:
+        print("{}: {}".format(metric, score))
+
+    return results
+
