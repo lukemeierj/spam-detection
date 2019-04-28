@@ -13,12 +13,12 @@ def main():
     #         df["word_freq_people"] *= 100
 
     target = df["spam"].values
+
     data = df.drop("spam", 1).values
     
-    
-
     naive_bayes.runNBs(data, target)
     neural_net.runNNs(data, target)
+
 
     
     

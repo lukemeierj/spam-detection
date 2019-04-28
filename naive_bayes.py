@@ -1,9 +1,7 @@
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, ComplementNB
-from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from binning import *
-
 
 
 def runNBs(features, labels):
@@ -14,12 +12,13 @@ def runNBs(features, labels):
             ]
 
     for name, nb in classifiers:
+        print("\tRunning with {} Naive Bayes\n".format(name))
         for binning_fn in [linear_bin, logarithmic_bin, None]:
             if binning_fn is not None: 
                 features = binned_data(features, range(0, 48), binning_fn)
 
             bin_name = binning_fn.__name__ if binning_fn is not None else "no"
-            print("Running with {} Naive Bayes using {} binning".format(name, bin_name))
+            print("\t\tusing {} binning".format(bin_name))
             runNB(nb, features, labels, scoringFns=[accuracy_score, precision_score, recall_score])
             print()
 
@@ -38,7 +37,7 @@ def runNB(nb, features, labels, scoringFns=[accuracy_score]):
 
     # Accuracy
     for metric, score in results:
-        print("{}: {}".format(metric, score))
+        print("\t\t\t{}: {}".format(metric, score))
 
     return results
 
