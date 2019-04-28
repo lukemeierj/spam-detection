@@ -16,8 +16,10 @@ def main():
     data = df.drop("spam", 1).values
     
     
-
+    print("Naive Bayes:")
     naive_bayes.runNBs(data, target)
+    
+    print("Neural Net:")
     neural_net.runNNs(data, target)
 
     
