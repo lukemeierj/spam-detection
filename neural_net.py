@@ -6,15 +6,20 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 def runNNs(features, labels):
     
     scoringFns=[accuracy_score, precision_score, recall_score]
-    
-    nn = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(16, 8), random_state=1)
-    
     trainFeature, testFeature, trainLabel, testLabel = train_test_split(features, labels, random_state=6)
     
-    nn.fit(trainFeature, trainLabel)
+    solvers = ['lbfgs','sgd','adam']
     
-    predLabel = nn.predict(testFeature)
+    for slvr in solvers:
+        nn = MLPClassifier(solver=slvr, alpha=1e-5, hidden_layer_sizes=(16, 8), random_state=1)
     
-    for fn in scoringFns:
-        print("{}: {}".format(fn.__name__, fn(testLabel, predLabel)))
+        nn.fit(trainFeature, trainLabel)
+    
+        predLabel = nn.predict(testFeature)
+        print("\tScores with solver "+slvr)
+        
+        for fn in scoringFns:
+            print("\t\t{}: {}".format(fn.__name__, fn(testLabel, predLabel)))
+        
+        print()
 
