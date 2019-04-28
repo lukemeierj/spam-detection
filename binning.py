@@ -16,6 +16,6 @@ def logarithmic_bin(arr, num_bins, minmax = (0, 100), base = 2, minval = 1e-8):
 def binned_data(data, col_nums, fn, num_bins = 5, minmax = (0, 100)):
     binned = data.copy().transpose()
     for col in col_nums:
-        binned[col] = fn(binned[col], num_bins)
-
+        binned[col] = fn(binned[col], num_bins, minmax=minmax)
+        
     return binned.transpose()
