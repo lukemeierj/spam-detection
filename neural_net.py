@@ -5,10 +5,14 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 def runNNs(features, labels):
     
+    #columns are the first nodes, rows are the second nodes
+    
+    
     scoringFns=[accuracy_score, precision_score, recall_score]
     trainFeature, testFeature, trainLabel, testLabel = train_test_split(features, labels, random_state=6)
     
     solvers = ['lbfgs','sgd','adam']
+    
     
     for slvr in solvers:
         nn = MLPClassifier(solver=slvr, alpha=1e-5, hidden_layer_sizes=(16, 8), random_state=1)
@@ -22,4 +26,4 @@ def runNNs(features, labels):
             print("\t\t{}: {}".format(fn.__name__, fn(testLabel, predLabel)))
         
         print()
-
+        
