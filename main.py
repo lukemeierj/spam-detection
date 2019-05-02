@@ -5,12 +5,7 @@ import naive_bayes
 import neural_net
 
 def main():
-    df = pd.read_csv("./spambase/spambase.data")
-
-    # Do we want to use a range 0,100 or 0,1?
-    # for col in df.columns:
-    #     if "freq" in col:
-    #         df["word_freq_people"] *= 100
+    df = pd.read_csv("./spambase/spambase.dat")
 
     target = df["spam"].values
 
@@ -18,7 +13,8 @@ def main():
     
     
     print("Naive Bayes:")
-    #naive_bayes.runNBs(data, target)
+    # naive_bayes.optimizeNBs(data, target)
+    naive_bayes.runNBs(data, target)
     
     print("Neural Net:")
     neural_net.runNNs(data, target)
