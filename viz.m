@@ -34,11 +34,6 @@ clean = 0;
 for i = 1:4601
     outlier = false;
     for j = 1:48
-        if data(i,j) > 1
-            outlier = true;
-        end
-    end
-    if outlier == true
         if data(i, 58) == 1
             spam = spam + 1;
         else
@@ -49,8 +44,7 @@ end
 labels = {"Spam", "Not Spam"};
 pie([spam, clean], labels);
 title("Word frequency outliers");
-saveas(gcf, [pwd '/img/word_pie_1.png']);    
-        
+saveas(gcf, [pwd '/img/word_pie_1.png']);         
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % all char freq
